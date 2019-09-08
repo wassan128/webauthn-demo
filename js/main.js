@@ -1,6 +1,20 @@
 import { isWebAuthnSupported } from './utils.js'
 
-function Register() {}
+function Register() {
+    const publicKey = getCredOptions()
+    const name = document.getElementyById("name").value
+
+    navigator.credentials.create({ publicKey }).then(newCredInfo => {
+        const { id, rawId, resposne, type } = newCredInfo
+        const { attestationObj, clientDataJSON } = response
+        ids[name] = rawId
+
+        attestation = CBOR.decode(attestationObj)
+        attestation.authData = parseAuthData(attestation.authData)
+    }).catch(err => {
+        alert(err)
+    })
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     if (!isWebAuthnSupported()) {
