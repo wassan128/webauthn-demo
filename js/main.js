@@ -20,11 +20,6 @@ function getCredCreationOptions() {
             'name': name,
             'displayName': name
         },
-        'authenticatorSelection': {
-            'requireResidentKey': false,
-            'authenticatorAttachment': 'cross-platform',
-            'userVerification': 'preferred'
-        },
         'pubKeyCredParams': [
             { 'type': 'public-key', 'alg': -7 }
         ],
@@ -37,28 +32,23 @@ function getCredCreationOptions() {
     return credentialCreationOptions
 }
 
-function Register() {
-    console.log("Regsiter event")
-
+async function Register() {
     const publicKey = getCredCreationOptions()
-    console.log(`publicKey: ${publicKey}`)
 
     const name = document.getElementById("name").value
 
-    navigator.credentials.create({ publicKey: publicKey }).then(newCredInfo => {
-        console.log(`newCredInfo: ${newCredInfo}`)
-        const { id, rawId, response, type } = newCredInfo
-        console.log(`id: ${id}, rawId: ${rawId}, response: ${response}, type: ${type}`)
-        const { attestationObj, clientDataJSON } = response
-        console.log(`attestationObj: ${attestationObj}, clientDataJSON: ${clientDataJSON}`)
-        ids[name] = rawId
+    const credential = await navigator.credentials.create({ publicKey: publicKey })
+    const {id, rawId, response, type} = credential
+    const {attestationObject, clientDataJSON} = response
 
-        attestation = CBOR.decode(attestationObj)
-        console.log("attestation.decode done")
-        attestation.authData = parseAuthData(attestation.authData)
-    }).catch(err => {
-        alert(err)
-    })
+    const clientData = JSON.parse(
+        String.fromCharCode.apply("", new Uint8Array(clientDataJSON))
+    )
+
+    console.log(`type === webauthn.create: ${clientData.type === "webauthn.create"}`)
+    console.log(`challenge: ${clientData.challenge}`)
+    console.log(`origin: ${clientData.origin}`)
+    console.log(`tokenBinding: ${clientData.tokenBinding}`)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
