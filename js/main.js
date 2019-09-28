@@ -45,10 +45,15 @@ async function Register() {
         String.fromCharCode.apply("", new Uint8Array(clientDataJSON))
     )
 
-    console.log(`type === webauthn.create: ${clientData.type === "webauthn.create"}`)
-    console.log(`challenge: ${clientData.challenge}`)
-    console.log(`origin: ${clientData.origin}`)
-    console.log(`tokenBinding: ${clientData.tokenBinding}`)
+    if (clientData.type !== "webauthn.create") {
+        console.log("Invalid clientData type")
+        return
+    }
+    // WIP console.log(`challenge: ${clientData.challenge}`)
+    if (clientData.origin !== "http://localhost:8000") {
+        console.log("Invalid clientData origin")
+        return
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
