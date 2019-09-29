@@ -40,7 +40,7 @@ async function Register() {
     const {attestationObject, clientDataJSON} = response
 
     const clientData = JSON.parse(
-        String.fromCharCode.apply("", new Uint8Array(clientDataJSON))
+        String.fromCharCode(...new Uint8Array(clientDataJSON))
     )
 
     if (clientData.type !== "webauthn.create") {
