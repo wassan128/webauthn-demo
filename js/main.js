@@ -5,7 +5,6 @@ let ids = {}
 
 function getCredCreationOptions() {
     const name = document.getElementById("name").value
-
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     document.getElementById("register_challenge").value = Base64.encode(challenge)
 
@@ -34,7 +33,6 @@ function getCredCreationOptions() {
 
 async function Register() {
     const publicKey = getCredCreationOptions()
-
     const name = document.getElementById("name").value
 
     const credential = await navigator.credentials.create({ publicKey: publicKey })
@@ -49,7 +47,13 @@ async function Register() {
         console.log("Invalid clientData type")
         return
     }
-    // WIP console.log(`challenge: ${clientData.challenge}`)
+
+    const challenge = document.getElementById("register_challenge").value.replace(/=/g, "")
+    if (clientData.challenge !== challenge) {
+        console.log("Incorrect clientData challenge: %s !== %s", clientData.challenge, challenge)
+        return
+    }
+
     if (clientData.origin !== "http://localhost:8000") {
         console.log("Invalid clientData origin")
         return
