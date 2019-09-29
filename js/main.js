@@ -44,18 +44,18 @@ async function Register() {
     )
 
     if (clientData.type !== "webauthn.create") {
-        console.log("Invalid clientData type")
+        console.log(`Invalid clientData type: ${clientData.type}`)
         return
     }
 
     const challenge = document.getElementById("register_challenge").value.replace(/=/g, "")
     if (clientData.challenge !== challenge) {
-        console.log("Incorrect clientData challenge: %s !== %s", clientData.challenge, challenge)
+        console.log(`Incorrect clientData challenge: ${clientData.challenge} !==  ${challenge}`)
         return
     }
 
     if (clientData.origin !== "http://localhost:8000") {
-        console.log("Invalid clientData origin")
+        console.log(`Invalid clientData origin: ${clientData.origin}`)
         return
     }
 }
