@@ -2,7 +2,7 @@
 
 export const Base64 = {
     encode: (function(i, tbl) {
-        for(i=0,tbl={64:61,63:47,62:43}; i<62; i++) {tbl[i]=i<26?i+65:(i<52?i+71:i-4);} //A-Za-z0-9+/=
+        for(i=0,tbl={64:61,63:95,62:45}; i<62; i++) {tbl[i]=i<26?i+65:(i<52?i+71:i-4);} //A-Za-z0-9_-=
         return function(arr) {
             var len, str, buf;
             if (!arr || !arr.length) {return "";}
@@ -18,7 +18,7 @@ export const Base64 = {
         };
     }()),
     decode: (function(i, tbl) {
-        for(i=0,tbl={61:64,47:63,43:62}; i<62; i++) {tbl[i<26?i+65:(i<52?i+71:i-4)]=i;} //A-Za-z0-9+/=
+        for(i=0,tbl={61:64,95:63,45:62}; i<62; i++) {tbl[i<26?i+65:(i<52?i+71:i-4)]=i;} //A-Za-z0-9_-=
         return function(str) {
             var j, len, arr, buf;
             if (!str || !str.length) {return [];}
