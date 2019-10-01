@@ -58,6 +58,15 @@ async function Register() {
         console.log(`Invalid clientData origin: ${clientData.origin}`)
         return
     }
+
+    const clientDataHash = sha256(clientDataJSON)
+    console.log(clientDataHash)
+}
+
+function sha256(target) {
+    const SHA_OBJ = new jsSHA("SHA-256", "TEXT")
+    SHA_OBJ.update(target)
+    return SHA_OBJ.getHash("HEX")
 }
 
 document.addEventListener("DOMContentLoaded", () => {
