@@ -60,7 +60,14 @@ async function Register() {
     }
 
     const clientDataHash = sha256(clientDataJSON)
-    console.log(clientDataHash)
+
+    const {fmt, authData, attStmt} = CBOR.decode(attestationObject)
+    console.log(fmt, authData, attStmt)
+
+    const rpIdHash = authData.slice(0, 32).reduce((res, x) => res+`0${x.toString(16)}`.slice(-2), "")
+    if (rpIdHash !== sha256("localhost")) {
+        console.log(`Incorrect RP id hash not equal sha256(localhost)`)
+    }
 }
 
 function sha256(target) {
