@@ -68,6 +68,15 @@ async function Register() {
     if (rpIdHash !== sha256("localhost")) {
         console.log(`Incorrect RP id hash not equal sha256(localhost)`)
     }
+
+    const [uv, up] = [authData[32] & 0x04, authData[32] & 0x01]
+    if (uv !== 1) {
+        console.log(`UserVerified is not 1`)
+    }
+    if (up !== 1) {
+        console.log(`UserPresent is not 1`)
+    }
+
 }
 
 function sha256(target) {
