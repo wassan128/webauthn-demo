@@ -78,7 +78,7 @@ async function Register() {
     }
 
     const aaguid = authData.slice(37, 53)
-    const credentialIdLength = authData.slice(53, 55)
+    const credentialIdLength = (authData[53] << 8) + authData[54]
     const credentialId = authData.slice(55, 55 + credentialIdLength)
     console.log("aaguid:", aaguid, "credentialId:", credentialId, "len:", credentialIdLength
     )
