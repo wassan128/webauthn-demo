@@ -79,11 +79,7 @@ async function Register() {
 
     const aaguid = authData.slice(37, 53)
     const credentialIdLength = (authData[53] << 8) + authData[54]
-    const credentialId = authData.slice(55, 55 + credentialIdLength)
-    console.log("aaguid:", aaguid, "credentialId:", credentialId, "len:", credentialIdLength)
-
-    const credentialPublickey = authData.slice(55 + credentialIdLength, authData.length)
-    console.log(credentialPublickey)
+    const credentialId = Base64.encode(authData.slice(55, 55 + credentialIdLength))
 }
 
 function sha256(target) {
