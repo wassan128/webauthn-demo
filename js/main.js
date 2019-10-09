@@ -82,6 +82,9 @@ async function Register() {
     const credentialId = Base64.encode(authData.slice(55, 55 + credentialIdLength))
 }
 
+function Authenticate() {
+}
+
 function sha256(target) {
     const SHA_OBJ = new jsSHA("SHA-256", "TEXT")
     SHA_OBJ.update(target)
