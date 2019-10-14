@@ -33,7 +33,6 @@ function getCredCreationOptions() {
 
 async function Register() {
     const publicKey = getCredCreationOptions()
-    const name = document.getElementById("name").value
 
     const credential = await navigator.credentials.create({ publicKey: publicKey })
     const {id, rawId, response, type} = credential
