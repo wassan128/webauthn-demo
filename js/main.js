@@ -23,6 +23,9 @@ function getCredCreationOptions() {
             { 'type': 'public-key', 'alg': -7 }
         ],
         'timeout': 60000,
+        'authenticatorSelection': {
+            'userVerification': 'required'
+        },
         'attestation': 'direct'
 
     }
