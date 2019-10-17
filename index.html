@@ -8,10 +8,19 @@
     <script src="./js/lib/sha256.js"></script>
 </head>
 <body>
-    <input id="name" name="user_id" placeholder="ID"/>
-    <button id="btn-register">Register</button>
+    <form>
+        <div>
+            <label for="name">username:</label>
+            <input id="name" name="user_id" placeholder="ID"/>
+            <button type="button" id="btn-register">Register</button>
+        </div>
 
-    <input id="register_challenge" placeholder="challenge"/>
+        <div>
+            <h3>Attestation</h3>
+            <label for="register_challenge"></label>
+            <input id="register_challenge" placeholder="challenge"/>
+        </div>
+    </form>
 </body>
 </html>
 
