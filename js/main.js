@@ -82,6 +82,10 @@ async function Register() {
     const credentialId = Base64.encode(authData.slice(55, credentialIdLength))
 
     document.getElementById('register_credentialId').value = credentialId
+
+    const publicKeyBytes = authData.slice(55 + credentialIdLength)
+    const publicKeyObj = CBOR.decode(publicKeyBytes.buffer)
+    console.log(publicKeyObj)
 }
 
 function Authenticate() {
