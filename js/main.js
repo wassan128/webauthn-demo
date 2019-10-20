@@ -1,8 +1,6 @@
 import { isWebAuthnSupported, str2bin } from './utils.js'
 import { Base64 } from './lib/base64.js'
 
-let ids = {}
-
 function getCredCreationOptions() {
     const name = document.getElementById("name").value
     const challenge = crypto.getRandomValues(new Uint8Array(32))
@@ -78,7 +76,12 @@ async function Register() {
     if (up !== 1) {
         console.log(`UserPresent is not 1`)
     }
-    // TODO: verify attestation
+
+    const aaguid = authData.slice(37, 53)
+    const credentialIdLength = (authData[53] << 8) + authData[54]
+    const credentialId = Base64.encode(authData.slice(55, credentialIdLength))
+
+    document.getElementById("register_credentialId").value = credentialId
 }
 
 function Authenticate() {
