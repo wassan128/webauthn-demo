@@ -22,7 +22,7 @@ function getCredCreationOptions() {
         ],
         'timeout': 60000,
         'authenticatorSelection': {
-            'userVerification': 'required'
+            'userVerification': 'discouraged'
         },
         'attestation': 'direct'
 
@@ -98,11 +98,14 @@ async function Authenticate() {
             type: 'public-key',
             transports: ['usb', 'ble', 'nfc'],
         }],
+        userVerification: 'discouraged',
         timeout: 60000,
     }
     const assertion = await navigator.credentials.get({
         publicKey: publicKeyCredentialRequestOptions
     })
+
+    console.log(assertion)
 }
 
 function sha256(target) {
@@ -120,4 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btn_register = document.getElementById('btn-register')
     btn_register.addEventListener('click', Register)
+
+    const btn_login = document.getElementById('btn-login')
+    btn_login.addEventListener('click', Authenticate)
 })
