@@ -38,6 +38,7 @@ async function Register() {
     const credential = await navigator.credentials.create({ publicKey: publicKey })
     const {id, rawId, response, type} = credential
     const {attestationObject, clientDataJSON} = response
+    console.log(id, rawId, type)
 
     const clientData = JSON.parse(
         String.fromCharCode(...new Uint8Array(clientDataJSON))
@@ -60,6 +61,7 @@ async function Register() {
     }
 
     const clientDataHash = sha256(clientDataJSON)
+    console.log(clientDataHash)
 
     const {fmt, authData, attStmt} = CBOR.decode(attestationObject)
     console.log(fmt, authData, attStmt)
@@ -78,6 +80,8 @@ async function Register() {
     }
 
     const aaguid = authData.slice(37, 53)
+    console.log(aaguid)
+
     const credentialIdLength = (authData[53] << 8) + authData[54]
     const credentialId = Base64.encode(authData.slice(55, credentialIdLength))
 
