@@ -6,25 +6,35 @@
     <script type="module" src="./js/main.js"></script>
     <script src="./js/lib/cbor.js"></script>
     <script src="./js/lib/sha256.js"></script>
+    <link rel="stylesheet" href="./css/style.css"/>
 </head>
 <body>
     <form>
         <div>
-            <label for="name">username:</label>
-            <input id="name" name="user_id" placeholder="ID"/>
-            <button type="button" id="btn-register">Register</button>
-            <button type="button" id="btn-login">Login</button>
+            <h2>FIDO attestation/assertion sample</h2>
+            <p>
+                <label for="username">input username:</label>
+                <input id="username" name="username" placeholder="username"/>
+            </p>
+            <p>
+                <button type="button" id="btn-register">Register</button>
+                <button type="button" id="btn-login">Login</button>
+            </p>
         </div>
 
         <div>
             <h3>Attestation</h3>
             <p>
                 <label for="register_challenge">challenge:</label>
-                <input id="register_challenge" placeholder="challenge" size="58"/>
+                <input id="register_challenge" placeholder="challenge here" size="58"/>
             </p>
             <p>
                 <label for="register_credentialId">credential ID:</label>
-                <input id="register_credentialId" placeholder="credential ID" size="58"/>
+                <input id="register_credentialId" placeholder="credential ID here" size="58"/>
+            </p>
+            <p>
+                <label for="attobj">Attestation Object:</label>
+                <textarea id="attobj" readonly></textarea>
             </p>
         </div>
     </form>

@@ -2,7 +2,7 @@ import { isWebAuthnSupported, str2bin } from './utils.js'
 import { Base64 } from './lib/base64.js'
 
 function getAssertionOptions() {
-    const name = document.getElementById('name').value
+    const name = document.getElementById('username').value
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     document.getElementById('register_challenge').value = Base64.encode(challenge)
 
@@ -85,7 +85,7 @@ async function Register() {
     const publicKeyBytes = authData.slice(55 + credentialIdLength)
     const publicKeyObj = CBOR.decode(publicKeyBytes.buffer)
 
-    console.log('attesttaion object: ', {
+    const parsedAttesatationObject = {
         id,
         rawId: Base64.encode(rawId),
         response: {
@@ -101,13 +101,16 @@ async function Register() {
                     },
                     counter: counter,
                     aaguid: Base64.encode(aaguid),
-                    credentialId: Base64.encode(credentialId)
+                    credentialId: credentialId
                 },
                 fmt
             },
             clientDataJSON: atob(Base64.encode(clientDataJSON))
         }
-    })
+    }
+    console.log('attestation Object: ', parsedAttesatationObject)
+
+    document.getElementById('attobj').value = JSON.stringify(parsedAttesatationObject, null, 2)
 }
 
 async function Authenticate() {
