@@ -1,7 +1,7 @@
 import { isWebAuthnSupported, str2bin } from './utils.js'
 import { Base64 } from './lib/base64.js'
 
-function getCredCreationOptions() {
+function getAssertionOptions() {
     const name = document.getElementById('name').value
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     document.getElementById('register_challenge').value = Base64.encode(challenge)
@@ -27,13 +27,13 @@ function getCredCreationOptions() {
         'attestation': 'direct'
 
     }
-    console.log('getCredCreationOptions done')
+    console.log('getAssertionOptions done')
 
     return credentialCreationOptions
 }
 
 async function Register() {
-    const publicKey = getCredCreationOptions()
+    const publicKey = getAssertionOptions()
 
     const credential = await navigator.credentials.create({ publicKey: publicKey })
     const {id, rawId, response, type} = credential
