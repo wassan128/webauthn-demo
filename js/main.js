@@ -105,7 +105,7 @@ async function Register() {
                 },
                 fmt
             },
-            clientDataJSON: atob(Base64.encode(clientDataJSON))
+            clientDataJSON: clientDataJSON
         }
     }
     console.log('attestation Object: ', parsedAttesatationObject)
