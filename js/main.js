@@ -27,7 +27,6 @@ function getAssertionOptions() {
         'attestation': 'direct'
 
     }
-    console.log('getAssertionOptions done')
 
     return credentialCreationOptions
 }
@@ -38,25 +37,24 @@ async function Register() {
     const credential = await navigator.credentials.create({ publicKey: publicKey })
     const {id, rawId, response, type} = credential
     const {attestationObject, clientDataJSON} = response
-    console.log(id, rawId, type)
 
     const clientData = JSON.parse(
         String.fromCharCode(...new Uint8Array(clientDataJSON))
     )
 
     if (clientData.type !== 'webauthn.create') {
-        console.log(`Invalid clientData type: ${clientData.type}`)
+        console.error(`Invalid clientData type: ${clientData.type}`)
         return
     }
 
     const challenge = document.getElementById('register_challenge').value.replace(/=/g, '')
     if (clientData.challenge !== challenge) {
-        console.log(`Incorrect clientData challenge: ${clientData.challenge} !==  ${challenge}`)
+        console.error(`Incorrect clientData challenge: ${clientData.challenge} !==  ${challenge}`)
         return
     }
 
     if (clientData.origin !== 'http://localhost:8000') {
-        console.log(`Invalid clientData origin: ${clientData.origin}`)
+        console.error(`Invalid clientData origin: ${clientData.origin}`)
         return
     }
 
@@ -68,15 +66,15 @@ async function Register() {
 
     const rpIdHash = authData.slice(0, 32).reduce((res, x) => res+`0${x.toString(16)}`.slice(-2), '')
     if (rpIdHash !== sha256('localhost')) {
-        console.log('Incorrect RP id hash not equal sha256(localhost)')
+        console.error('Incorrect RP id hash not equal sha256(localhost)')
     }
 
     const [uv, up] = [authData[32] & 0x04, authData[32] & 0x01]
     if (uv !== 1) {
-        console.log('UserVerified is not 1')
+        console.warn('UserVerified is not 1')
     }
     if (up !== 1) {
-        console.log('UserPresent is not 1')
+        console.warn('UserPresent is not 1')
     }
 
     const counter = authData.slice(33, 37)
@@ -123,9 +121,9 @@ function sha256(target) {
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!isWebAuthnSupported()) {
-        console.log('WebAuthn not supported... ;-(')
+        console.error('WebAuthn not supported... ;-(')
     } else {
-        console.log('WebAuthn supported :-)')
+        console.info('WebAuthn supported :-)')
     }
 
     const btn_register = document.getElementById('btn-register')
