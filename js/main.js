@@ -79,6 +79,9 @@ async function Register() {
         console.log('UserPresent is not 1')
     }
 
+    const counter = authData.slice(33, 37)
+    console.log('counter: ', new Uint8Array(counter))
+
     const aaguid = authData.slice(37, 53)
     console.log(aaguid)
 
