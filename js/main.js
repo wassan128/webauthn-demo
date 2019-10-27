@@ -86,7 +86,7 @@ async function Register() {
     console.log(aaguid)
 
     const credentialIdLength = (authData[53] << 8) + authData[54]
-    const credentialId = Base64.encode(authData.slice(55, credentialIdLength))
+    const credentialId = Base64.encode(authData.slice(55, 55 + credentialIdLength))
 
     document.getElementById('register_credentialId').value = credentialId
 
