@@ -59,17 +59,14 @@ async function Register() {
     }
 
     const clientDataHash = sha256(clientDataJSON)
-    console.log(clientDataHash)
-
     const {fmt, authData, attStmt} = CBOR.decode(attestationObject)
-    console.log(fmt, authData, attStmt)
-
     const rpIdHash = authData.slice(0, 32).reduce((res, x) => res+`0${x.toString(16)}`.slice(-2), '')
     if (rpIdHash !== sha256('localhost')) {
         console.error('Incorrect RP id hash not equal sha256(localhost)')
     }
 
-    const [uv, up] = [authData[32] & 0x04, authData[32] & 0x01]
+    const flag = authData[32]
+    const [uv, up] = [flag & 0x04, flag & 0x01]
     if (uv !== 1) {
         console.warn('UserVerified is not 1')
     }
@@ -78,10 +75,7 @@ async function Register() {
     }
 
     const counter = authData.slice(33, 37)
-    console.log('counter: ', new Uint8Array(counter))
-
     const aaguid = authData.slice(37, 53)
-    console.log(aaguid)
 
     const credentialIdLength = (authData[53] << 8) + authData[54]
     const credentialId = Base64.encode(authData.slice(55, 55 + credentialIdLength))
@@ -90,7 +84,30 @@ async function Register() {
 
     const publicKeyBytes = authData.slice(55 + credentialIdLength)
     const publicKeyObj = CBOR.decode(publicKeyBytes.buffer)
-    console.log(publicKeyObj)
+
+    console.log('attesttaion object: ', {
+        id,
+        rawId: Base64.encode(rawId),
+        response: {
+            attestationObject: {
+                attStmt: {
+                    sig: attStmt.sig ? Base64.encode(attStmt.sig) : '',
+                    x5c: attStmt.x5c ? Base64.encode(attStmt.x5c[0]) : [],
+                },
+                authData: {
+                    rpIdHash: Base64.encode(rpIdHash),
+                    flag: {
+                        Uint8Array: flag,
+                    },
+                    counter: counter,
+                    aaguid: Base64.encode(aaguid),
+                    credentialId: Base64.encode(credentialId)
+                },
+                fmt
+            },
+            clientDataJSON: atob(Base64.encode(clientDataJSON))
+        }
+    })
 }
 
 async function Authenticate() {
