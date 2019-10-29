@@ -116,18 +116,18 @@ async function Register() {
 async function Authenticate() {
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     const credentialId = document.getElementById('register_credentialId').value
-    const publicKeyCredentialRequestOptions = {
-        challenge: challenge,
-        allowCredentials: [{
-            id: Uint8Array.from(credentialId, c => c.charCodeAt(0)),
-            type: 'public-key',
-            transports: ['usb', 'ble', 'nfc'],
+    const publicKey = {
+        'challenge': challenge,
+        'allowCredentials': [{
+            'id': new Uint8Array(Base64.decode(credentialId)),
+            'type': 'public-key',
+            'transports': ['usb', 'ble', 'nfc'],
         }],
-        userVerification: 'discouraged',
-        timeout: 60000,
+        'userVerification': 'discouraged',
+        'timeout': 60000,
     }
     const assertion = await navigator.credentials.get({
-        publicKey: publicKeyCredentialRequestOptions
+        publicKey: publicKey
     })
 
     console.log(assertion)
