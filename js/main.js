@@ -1,7 +1,7 @@
 import { isWebAuthnSupported, str2bin } from './utils.js'
 import { Base64 } from './lib/base64.js'
 
-function getAssertionOptions() {
+const getAssertionOptions = () => {
     const name = document.getElementById('username').value
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     document.getElementById('register_challenge').value = Base64.encode(challenge)
@@ -31,7 +31,7 @@ function getAssertionOptions() {
     return credentialCreationOptions
 }
 
-async function Register() {
+const Register = async () =>  {
     const publicKey = getAssertionOptions()
 
     const credential = await navigator.credentials.create({ publicKey: publicKey })
@@ -113,7 +113,7 @@ async function Register() {
     document.getElementById('attobj').value = JSON.stringify(parsedAttesatationObject, null, 2)
 }
 
-async function Authenticate() {
+const Authenticate = async () => {
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     const credentialId = document.getElementById('register_credentialId').value
     const publicKey = {
@@ -133,7 +133,7 @@ async function Authenticate() {
     console.log(assertion)
 }
 
-function sha256(target) {
+const sha256 = (target) => {
     const SHA_OBJ = new jsSHA('SHA-256', 'TEXT')
     SHA_OBJ.update(target)
     return SHA_OBJ.getHash('HEX')
