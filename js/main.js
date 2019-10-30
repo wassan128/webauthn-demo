@@ -1,7 +1,7 @@
 import { isWebAuthnSupported, str2bin } from './utils.js'
 import { Base64 } from './lib/base64.js'
 
-const getAssertionOptions = () => {
+const getAttestationOptions = () => {
     const name = document.getElementById('username').value
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     document.getElementById('register_challenge').value = Base64.encode(challenge)
@@ -31,8 +31,25 @@ const getAssertionOptions = () => {
     return credentialCreationOptions
 }
 
+const getAssersionOptions = () => {
+    const challenge = crypto.getRandomValues(new Uint8Array(32))
+    const credentialId = document.getElementById('register_credentialId').value
+
+    const credentialGetOptions = {
+        'challenge': challenge,
+        'allowCredentials': [{
+            'id': new Uint8Array(Base64.decode(credentialId)),
+            'type': 'public-key',
+            'transports': ['usb', 'ble', 'nfc'],
+        }],
+        'userVerification': 'discouraged',
+        'timeout': 60000,
+    }
+    return credentialGetOptions
+}
+
 const Register = async () =>  {
-    const publicKey = getAssertionOptions()
+    const publicKey = getAttestationOptions()
 
     const credential = await navigator.credentials.create({ publicKey: publicKey })
     const {id, rawId, response, type} = credential
@@ -114,21 +131,8 @@ const Register = async () =>  {
 }
 
 const Authenticate = async () => {
-    const challenge = crypto.getRandomValues(new Uint8Array(32))
-    const credentialId = document.getElementById('register_credentialId').value
-    const publicKey = {
-        'challenge': challenge,
-        'allowCredentials': [{
-            'id': new Uint8Array(Base64.decode(credentialId)),
-            'type': 'public-key',
-            'transports': ['usb', 'ble', 'nfc'],
-        }],
-        'userVerification': 'discouraged',
-        'timeout': 60000,
-    }
-    const assertion = await navigator.credentials.get({
-        publicKey: publicKey
-    })
+    const publicKey = getAssersionOptions()
+    const assertion = await navigator.credentials.get({ publicKey: publicKey })
 
     console.log(assertion)
 }
