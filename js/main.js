@@ -31,7 +31,7 @@ const getAttestationOptions = () => {
     return credentialCreationOptions
 }
 
-const getAssersionOptions = () => {
+const getAssertionOptions = () => {
     const challenge = crypto.getRandomValues(new Uint8Array(32))
     const credentialId = document.getElementById('register_credentialId').value
 
@@ -131,7 +131,7 @@ const Register = async () =>  {
 }
 
 const Authenticate = async () => {
-    const publicKey = getAssersionOptions()
+    const publicKey = getAssertionOptions()
     const assertion = await navigator.credentials.get({ publicKey: publicKey })
 
     console.log(assertion)
