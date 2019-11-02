@@ -137,6 +137,8 @@ const Authenticate = async () => {
     console.log(assertion)
 }
 
+const verifyAttestation = () => {}
+
 const sha256 = (target) => {
     const SHA_OBJ = new jsSHA('SHA-256', 'TEXT')
     SHA_OBJ.update(target)
