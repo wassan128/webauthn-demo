@@ -128,6 +128,8 @@ const Register = async () =>  {
     console.log('attestation Object: ', parsedAttesatationObject)
 
     document.getElementById('attobj').value = JSON.stringify(parsedAttesatationObject, null, 2)
+
+    verifyAttestation(attStmt)
 }
 
 const Authenticate = async () => {
@@ -137,7 +139,13 @@ const Authenticate = async () => {
     console.log(assertion)
 }
 
-const verifyAttestation = () => {}
+const verifyAttestation = (attStmt) => {
+    if (attStmt.x5c) {
+        console.log('This is FULL Attestation')
+    } else {
+        console.log('This is SELF Attestation')
+    }
+}
 
 const sha256 = (target) => {
     const SHA_OBJ = new jsSHA('SHA-256', 'TEXT')
