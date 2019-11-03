@@ -128,23 +128,14 @@ const Register = async () =>  {
     console.log('attestation Object: ', parsedAttesatationObject)
 
     document.getElementById('attobj').value = JSON.stringify(parsedAttesatationObject, null, 2)
-
-    verifyAttestation(attStmt)
 }
 
 const Authenticate = async () => {
     const publicKey = getAssertionOptions()
     const assertion = await navigator.credentials.get({ publicKey: publicKey })
 
-    console.log(assertion)
-}
-
-const verifyAttestation = (attStmt) => {
-    if (attStmt.x5c) {
-        console.log('This is FULL Attestation')
-    } else {
-        console.log('This is SELF Attestation')
-    }
+    const {id, rawId, response, type} = assertion
+    console.log(id, rawId, response, type)
 }
 
 const sha256 = (target) => {
