@@ -124,7 +124,7 @@ const Register = async () =>  {
                         AT: at,
                         ED: ed,
                     },
-                    counter: counter,
+                    counter: counter[0] + (counter[1] << 1) + (counter[2] << 2) + (counter[3] << 3),
                     aaguid: Base64.encode(aaguid),
                     credentialId: credentialId
                 },
