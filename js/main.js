@@ -134,8 +134,19 @@ const Authenticate = async () => {
     const publicKey = getAssertionOptions()
     const assertion = await navigator.credentials.get({ publicKey: publicKey })
 
+    console.log(assertion)
     const {id, rawId, response, type} = assertion
+    const {authenticatorData, clientDataJSON, signature, userHandle} = response
     console.log(id, rawId, response, type)
+
+    const parsedAssertionObject = {
+        id: id,
+        rawId: rawId,
+        response: {
+        }
+    }
+
+    document.getElementById('asrtobj').value = JSON.stringify(parsedAssertionObject, null, 2)
 }
 
 const sha256 = (target) => {
