@@ -1,9 +1,10 @@
-import { isWebAuthnSupported, str2bin } from './utils.js'
+import { isWebAuthnSupported } from './utils.js'
 import { Base64 } from './lib/base64.js'
 
 const getAttestationOptions = () => {
     const name = document.getElementById('username').value
     const challenge = crypto.getRandomValues(new Uint8Array(32))
+    const user_id = crypto.getRandomValues(new Uint8Array(32))
     document.getElementById('register_challenge').value = Base64.encode(challenge)
 
     const credentialCreationOptions = {
@@ -13,7 +14,7 @@ const getAttestationOptions = () => {
             'name': 'localhost webAuthn learn'
         },
         'user': {
-            'id': str2bin(name),
+            'id': user_id,
             'name': name,
             'displayName': name
         },
@@ -144,8 +145,7 @@ const Authenticate = async () => {
 
     console.log(assertion)
     const {id, rawId, response, type} = assertion
-    const {authenticatorData, clientDataJSON, signature, userHandle} = response
-    console.log(id, rawId, response, type)
+    const {authData, clientDataJSON, signature, userHandle} = response
 
     const parsedAssertionObject = {
         id: id,
