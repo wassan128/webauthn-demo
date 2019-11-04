@@ -83,7 +83,12 @@ const Register = async () =>  {
     }
 
     const flag = authData[32]
-    const [uv, up] = [flag & 0x04, flag & 0x01]
+    const [ed, at, uv, up] = [
+        (flag & 0x80) >> 7,
+        (flag & 0x40) >> 6,
+        (flag & 0x04) >> 2,
+        flag & 0x01
+    ]
     if (uv !== 1) {
         console.warn('UserVerified is not 1')
     }
@@ -114,7 +119,10 @@ const Register = async () =>  {
                 authData: {
                     rpIdHash: Base64.encode(rpIdHash),
                     flag: {
-                        Uint8Array: flag,
+                        UP: up,
+                        UV: uv,
+                        AT: at,
+                        ED: ed,
                     },
                     counter: counter,
                     aaguid: Base64.encode(aaguid),
