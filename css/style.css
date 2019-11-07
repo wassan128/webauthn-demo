@@ -34,6 +34,10 @@ h2, h3 {
 h2 {
     font-size: 12pt;
 }
+h4 {
+    color: #333;
+    padding: 1em;
+}
 
 button[type="button"] {
     border: none;
