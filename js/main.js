@@ -10,7 +10,6 @@ const getAttestationOptions = () => {
     const credentialCreationOptions = {
         'challenge': challenge,
         'rp': {
-            'id': 'webauthn-demo-app',
             'name': 'webauthn demo'
         },
         'user': {
