@@ -10,8 +10,8 @@ const getAttestationOptions = () => {
     const credentialCreationOptions = {
         'challenge': challenge,
         'rp': {
-            'id': 'localhost',
-            'name': 'localhost webAuthn learn'
+            'id': 'webauthn-demo-app',
+            'name': 'webauthn demo'
         },
         'user': {
             'id': user_id,
@@ -71,7 +71,7 @@ const Register = async () =>  {
         return
     }
 
-    if (clientData.origin !== 'http://localhost:8000') {
+    if (clientData.origin !== 'https://wassan128.github.io') {
         console.error(`Invalid clientData origin: ${clientData.origin}`)
         return
     }
@@ -79,8 +79,8 @@ const Register = async () =>  {
     const clientDataHash = sha256(clientDataJSON)
     const {fmt, authData, attStmt} = CBOR.decode(attestationObject)
     const rpIdHash = authData.slice(0, 32).reduce((res, x) => res+`0${x.toString(16)}`.slice(-2), '')
-    if (rpIdHash !== sha256('localhost')) {
-        console.error('Incorrect RP id hash not equal sha256(localhost)')
+    if (rpIdHash !== sha256('webauthn-demo-app')) {
+        console.error('Incorrect RP id hash not equal sha256(webauthn-demo-app)')
     }
 
     const flag = authData[32]
