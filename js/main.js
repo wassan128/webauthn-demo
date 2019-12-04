@@ -146,8 +146,6 @@ const Authenticate = async () => {
     const {id, rawId, response, type} = assertion
     const {authData, clientDataJSON, signature, userHandle} = response
 
-    console.log(authData, clientData)
-
     const parsedAssertionObject = {
         id: id,
         rawId: rawId,
