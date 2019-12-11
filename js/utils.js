@@ -5,3 +5,9 @@ export const isWebAuthnSupported = () => {
         typeof window.PublicKeyCredential !== 'function')
 }
 
+export const copyToClipBoard = elm => {
+    elm.select()
+    elm.setSelectionRange(0, 99999)
+    document.execCommand('copy')
+    alert('copied!')
+}

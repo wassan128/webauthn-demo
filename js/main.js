@@ -1,4 +1,4 @@
-import { isWebAuthnSupported } from './utils.js'
+import { copyToClipBoard, isWebAuthnSupported } from './utils.js'
 import { Base64 } from './lib/base64.js'
 
 const getAttestationOptions = () => {
@@ -174,4 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btn_login = document.getElementById('btn-login')
     btn_login.addEventListener('click', Authenticate)
+
+    const btn_copy = document.getElementById('btn-copy-atst')
+    const atst_obj = document.getElementById('attobj')
+    btn_copy.addEventListener('click', () => copyToClipBoard(atst_obj))
 })
